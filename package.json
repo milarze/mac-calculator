@@ -1,0 +1,9 @@
+{
+  "name": "mac-calculator",
+  "version": "0.0.1",
+  "description": "Calculate a Moving Average Inventory Cost",
+  "main": "index.js",
+  "repository": "https://github.com/milarze/mac-calculator",
+  "author": "Ezra Lim",
+  "license": "MIT"
+}
