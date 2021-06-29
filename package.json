@@ -5,5 +5,14 @@
   "main": "index.js",
   "repository": "https://github.com/milarze/mac-calculator",
   "author": "Ezra Lim",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6"
+  }
 }

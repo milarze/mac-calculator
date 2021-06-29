@@ -1,4 +1,4 @@
-import InputError from './errors/input-error'
+import InputError from './errors/input-error.js'
 
 function calculateNewAverage(
   currentAverage,
@@ -14,22 +14,21 @@ function isNumeric(n) {
 }
 
 function isValidInput(stockMovement) {
-  stockMovement.quantity &&
+  return stockMovement.quantity &&
     isNumeric(stockMovement.quantity) &&
     stockMovement.costPerItem &&
     isNumeric(stockMovement.costPerItem)
-
 }
 
 export default function macCalculator(stockSeries = []) {
   let currentAverage;
   let currentQuantity;
-  stockSeries.forEach((stockMovemnt) => {
+  stockSeries.forEach((stockMovement) => {
     if (!isValidInput(stockMovement)) {
       throw InputError('Invalid input object');
     }
-    let quantity = parseFloat(stockMovemnt.quantity)
-    let costPerItem = parseFloat(stockMovemnt.costPerItem)
+    let quantity = parseFloat(stockMovement.quantity)
+    let costPerItem = parseFloat(stockMovement.costPerItem)
     if (!currentAverage || !currentQuantity) {
       currentAverage = costPerItem
       currentQuantity = quantity
@@ -40,4 +39,8 @@ export default function macCalculator(stockSeries = []) {
       currentQuantity += quantity
     }
   });
+  return {
+    mac: currentAverage,
+    quantity: currentQuantity
+  };
 }
