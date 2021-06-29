@@ -22,22 +22,22 @@ function isValidInput(stockMovement) {
 
 export default function macCalculator(stockSeries = []) {
   let currentAverage;
-  let currentQuantity;
+  let currentQuantity = 0.0;
   stockSeries.forEach((stockMovement) => {
     if (!isValidInput(stockMovement)) {
       throw InputError('Invalid input object');
     }
     let quantity = parseFloat(stockMovement.quantity)
     let costPerItem = parseFloat(stockMovement.costPerItem)
-    if (!currentAverage || !currentQuantity) {
+    if (!currentAverage) {
       currentAverage = costPerItem
-      currentQuantity = quantity
-    } else {
-      if (quantity > 0) {
-        currentAverage = calculateNewAverage(currentAverage, currentQuantity, quantity, costPerItem)
-      }
-      currentQuantity += quantity
+    } else if (currentQuantity <= 0 && quantity + currentQuantity > 0) {
+      // Reset the MAC if the on hand quantity goes from below 0 to above
+      currentAverage = calculateNewAverage(0, 0, quantity, costPerItem)
+    } else if (quantity > 0) {
+      currentAverage = calculateNewAverage(currentAverage, currentQuantity, quantity, costPerItem)
     }
+    currentQuantity += quantity
   });
   return {
     mac: currentAverage,
