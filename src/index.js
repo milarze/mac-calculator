@@ -25,7 +25,7 @@ export default function macCalculator(stockSeries = []) {
   let currentQuantity = 0.0;
   stockSeries.forEach((stockMovement) => {
     if (!isValidInput(stockMovement)) {
-      throw new InputError('Invalid input object');
+      throw new InputError('Invalid input object', stockMovement);
     }
     let quantity = parseFloat(stockMovement.quantity)
     let costPerItem = parseFloat(stockMovement.costPerItem)

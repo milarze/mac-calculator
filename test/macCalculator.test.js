@@ -92,5 +92,7 @@ test('macCalculator.quantity handles going negative', () => {
 })
 
 test('throws InputError with invalid input', () => {
-  expect(() => macCalculator(invalidInput)).toThrow(InputError)
+  expect(() => macCalculator(invalidInput)).toThrowError(new InputError('Invalid input object', {
+    test: -1
+  }))
 })
