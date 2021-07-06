@@ -45,6 +45,13 @@ const belowZeroQuantityInputArray = [
   }
 ]
 
+const zeroValueInputs = [
+  {
+    quantity: 0,
+    costPerItem: 0
+  }
+]
+
 const invalidInput = [
   {
     test: -1
@@ -89,6 +96,12 @@ test('macCalculator.mac handles going to negative', () => {
 test('macCalculator.quantity handles going negative', () => {
   let result = macCalculator(belowZeroQuantityInputArray)
   expect(result.quantity).toBe(-10.0)
+})
+
+test('macCalculator handles 0 input', () => {
+  let result = macCalculator(zeroValueInputs)
+  expect(result.quantity).toBe(0)
+  expect(result.mac).toBe(0)
 })
 
 test('throws InputError with invalid input', () => {

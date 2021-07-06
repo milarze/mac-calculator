@@ -14,9 +14,7 @@ function isNumeric(n) {
 }
 
 function isValidInput(stockMovement) {
-  return stockMovement.quantity &&
-    isNumeric(stockMovement.quantity) &&
-    stockMovement.costPerItem &&
+  return isNumeric(stockMovement.quantity) &&
     isNumeric(stockMovement.costPerItem)
 }
 
