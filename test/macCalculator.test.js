@@ -1,4 +1,5 @@
 import macCalculator from '../src/index.js'
+import InputError from '../src/errors/input-error.js'
 
 const inputArray = [
   {
@@ -44,6 +45,12 @@ const belowZeroQuantityInputArray = [
   }
 ]
 
+const invalidInput = [
+  {
+    test: -1
+  }
+]
+
 test('macCalculator.mac returns a the current MAC', () => {
   let result = macCalculator(inputArray)
   expect(result.mac).toBe(10.0)
@@ -84,3 +91,6 @@ test('macCalculator.quantity handles going negative', () => {
   expect(result.quantity).toBe(-10.0)
 })
 
+test('throws InputError with invalid input', () => {
+  expect(() => macCalculator(invalidInput)).toThrow(InputError)
+})
