@@ -1,4 +1,5 @@
 # mac-calculator
+![Main](https://github.com/milarze/mac-calculator/actions/workflows/node.js.yaml/badge.svg)
 ### How To Use
 This library exports a single function that expects an ordered series of `quantity` and `costPerItem` and returns the quantity on hand at the end of the series (`quantity`) and the MAC at the end of the series (`mac`).
 #### Expected Input
