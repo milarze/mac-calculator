@@ -6,7 +6,7 @@ function calculateNewAverage(
   quantity,
   costPerItem
 ) {
-  return ((currentAverage * currentQuantity) + (quantity * costPerItem)) / (currentQuantity + quantity)
+  return roundToTwo(((currentAverage * currentQuantity) + (quantity * costPerItem)) / (currentQuantity + quantity));
 }
 
 function isNumeric(n) {
@@ -18,7 +18,16 @@ function isValidInput(stockMovement) {
     isNumeric(stockMovement.costPerItem)
 }
 
+function deepCopy(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
+function roundToTwo(num) {
+  return +(Math.round(num + "e+2")  + "e-2");
+}
+
 export default function macCalculator(stockSeries = []) {
+  stockSeries = deepCopy(stockSeries);
   let currentAverage;
   let currentQuantity = 0.0;
   stockSeries.forEach((stockMovement) => {
@@ -34,11 +43,17 @@ export default function macCalculator(stockSeries = []) {
       currentAverage = calculateNewAverage(0, 0, quantity, costPerItem)
     } else if (quantity > 0) {
       currentAverage = calculateNewAverage(currentAverage, currentQuantity, quantity, costPerItem)
+    } else if (quantity < 0) {
+      delete stockMovement.costPerItem;
+      stockMovement.costs = [{
+        "cost": currentAverage,
+        "quantity": Math.abs(quantity),
+      }];
     }
     currentQuantity += quantity
+    stockMovement.quantityOnHand = currentQuantity;
+    stockMovement.valueOnHand = currentQuantity * currentAverage;
+    stockMovement.mac = currentAverage;
   });
-  return {
-    mac: currentAverage,
-    quantity: currentQuantity
-  };
+  return stockSeries;
 }
