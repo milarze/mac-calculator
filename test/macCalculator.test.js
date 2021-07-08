@@ -1,111 +1,157 @@
-import macCalculator from '../src/index.js'
-import InputError from '../src/errors/input-error.js'
+import macCalculator from '../src/index.js';
+import InputError from '../src/errors/input-error.js';
 
 const inputArray = [
   {
     "quantity": 1.0,
-    "costPerItem": 10.0
-  }
-]
-
-const negativeInputArray = [
-  {
-    quantity: -10.0,
-    costPerItem: 10.0
+    "costPerItem": 10.0,
   },
   {
-    quantity: 20.0,
-    costPerItem: 50.0
-  }
-]
-
-const resetInputArray = [
-  {
-    quantity: 10.0,
-    costPerItem: 20.0
+    "quantity": -1.0,
+    "costPerItem": 0.0,
   },
   {
-    quantity: -20.0,
-    costPerItem: 20.0
+    "quantity": 10.0,
+    "costPerItem": 5.0,
   },
   {
-    quantity: 30.0,
-    costPerItem: 30.0
-  }
-]
-
-const belowZeroQuantityInputArray = [
-  {
-    quantity: 10.0,
-    costPerItem: 20.0
+    "quantity": 10.0,
+    "costPerItem": 6.0,
   },
   {
-    quantity: -20.0,
-    costPerItem: 20.0
-  }
-]
-
-const zeroValueInputs = [
+    "quantity": 5.0,
+    "costPerItem": 7.0,
+  },
   {
-    quantity: 0,
-    costPerItem: 0
-  }
-]
+    "quantity": -23.0,
+    "costPerItem": 0.0,
+  },
+  {
+    "quantity": 100.0,
+    "costPerItem": 8.0,
+  },
+  {
+    "quantity": -10.0,
+    "costPerItem": 0.0,
+  },
+  {
+    "quantity": -20.0,
+    "costPerItem": 0.0,
+  },
+  {
+    "quantity": -10.0,
+    "costPerItem": 0.0,
+  },
+];
 
 const invalidInput = [
   {
     test: -1
-  }
-]
+  },
+];
 
-test('macCalculator.mac returns a the current MAC', () => {
-  let result = macCalculator(inputArray)
-  expect(result.mac).toBe(10.0)
-})
-
-test('macCalculator.quantity returns a the current quantity', () => {
-  let result = macCalculator(inputArray)
-  expect(result.quantity).toBe(1.0)
-})
-
-test('macCalculator.mac handles negative quantities', () => {
-  let result = macCalculator(negativeInputArray)
-  expect(result.mac).toBe(50.0)
-})
-
-test('macCalculator.quantity handles negative quantities', () => {
-  let result = macCalculator(negativeInputArray)
-  expect(result.quantity).toBe(10.0)
-})
-
-test('macCalculator.mac handles going to negative and coming back up', () => {
-  let result = macCalculator(resetInputArray)
-  expect(result.mac).toBe(30.0)
-})
-
-test('macCalculator.quantity handles going negative and coming back', () => {
-  let result = macCalculator(resetInputArray)
-  expect(result.quantity).toBe(20.0)
-})
-
-test('macCalculator.mac handles going to negative', () => {
-  let result = macCalculator(belowZeroQuantityInputArray)
-  expect(result.mac).toBe(20.0)
-})
-
-test('macCalculator.quantity handles going negative', () => {
-  let result = macCalculator(belowZeroQuantityInputArray)
-  expect(result.quantity).toBe(-10.0)
-})
-
-test('macCalculator handles 0 input', () => {
-  let result = macCalculator(zeroValueInputs)
-  expect(result.quantity).toBe(0)
-  expect(result.mac).toBe(0)
-})
+test('macCalculator returns the movements hydrated with sell costs', () => {
+  expect(macCalculator(inputArray)).toStrictEqual([
+    {
+      "quantity": 1.0,
+      "costPerItem": 10.0,
+      "quantityOnHand": 1.0,
+      "valueOnHand": 10.0,
+      "mac": 10.0,
+    },
+    {
+      "quantity": -1.0,
+      "quantityOnHand": 0.0,
+      "valueOnHand": 0.0,
+      "mac": 10.0,
+      "costs": [
+        {
+          "cost": 10.0,
+          "quantity": 1.0,
+        },
+      ],
+    },
+    {
+      "quantity": 10.0,
+      "costPerItem": 5.0,
+      "quantityOnHand": 10.0,
+      "valueOnHand": 50.0,
+      "mac": 5.0,
+    },
+    {
+      "quantity": 10.0,
+      "costPerItem": 6.0,
+      "quantityOnHand": 20.0,
+      "valueOnHand": 110.0,
+      "mac": 5.5,
+    },
+    {
+      "quantity": 5.0,
+      "costPerItem": 7.0,
+      "quantityOnHand": 25.0,
+      "valueOnHand": 145.0,
+      "mac": 5.8,
+    },
+    {
+      "quantity": -23.0,
+      "quantityOnHand": 2.0,
+      "valueOnHand": 11.6,
+      "mac": 5.8,
+      "costs": [
+        {
+          "cost": 5.8,
+          "quantity": 23.0
+        },
+      ]
+    },
+    {
+      "quantity": 100.0,
+      "costPerItem": 8.0,
+      "quantityOnHand": 102.0,
+      "valueOnHand": 811.92,
+      "mac": 7.96,
+    },
+    {
+      "quantity": -10.0,
+      "quantityOnHand": 92.0,
+      "valueOnHand": 732.32,
+      "mac": 7.96,
+      "costs": [
+        {
+          "cost": 7.96,
+          "quantity": 10.0,
+        },
+      ],
+    },
+    {
+      "quantity": -20.0,
+      "quantityOnHand": 72.0,
+      "valueOnHand": 573.12,
+      "mac": 7.96,
+      "costs": [
+        {
+          "cost": 7.96,
+          "quantity": 20.0,
+        },
+      ],
+    },
+    {
+      "quantity": -10.0,
+      "quantityOnHand": 62.0,
+      "valueOnHand": 493.52,
+      "mac": 7.96,
+      "costs": [
+        {
+          "cost": 7.96,
+          "quantity": 10.0,
+        },
+      ],
+    },
+  ]);
+});
 
 test('throws InputError with invalid input', () => {
   expect(() => macCalculator(invalidInput)).toThrowError(new InputError('Invalid input object', {
     test: -1
-  }))
-})
+  }));
+});
