@@ -28,3 +28,10 @@ jobs:
         cache: 'npm'
     - run: yarn install --frozen-lockfile
     - run: npm test
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.OS }}-cache-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-cache-
